@@ -1,0 +1,24 @@
+Import BD (PIMA Indians diabetes dataset):
+
+```{r}
+library(readr)
+diabetes <- read_csv("C:/Documents/HugoC/Git/Learning/r-rstudio-SelfLearning/2-EconometrieR/data/diabetes.csv")
+```
+
+Choisir une ou plusieurs lignes, et des colonnes :
+Matrice(lignes, colonnes)
+Ici choix parmi M(768, 9)
+
+```{r}
+Nouvelle_matrice <- diabetes[1:100,7:9]
+```
+
+
+Sélectionner une colonne de la base :
+```{r}
+Y1 <- diabetes$Outcome # (1) Utiliser la commande $ (comme un tiroir)
+# => forme un vecteur de données (d'observations numériques)
+
+Y2 <- diabetes[,9] # (2) Depuis matrice/index : select ttes les lignes, virgule, la neuvième variable/colonne qui est Outcome
+# => demeure une base de données / matrice (L, 1)
+```
