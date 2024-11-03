@@ -1,0 +1,75 @@
+# 0. Importation du fichier CSV
+
+```{r}
+data = read.csv("data/personnes.csv",
+                stringsAsFactors = FALSE, # pour éviter de travailler avec des Factors et faciliter les traitements
+                fileEncoding = "UTF-8", # spécifier l'encodage du fichier
+                na.strings = c("", "NA") # afin qu'il considère les "cases vides" comme des NA
+                )
+
+head(data)
+```
+
+# 1. Détecter les erreurs
+
+- Valeurs manquantes :
+```{r}
+sapply(data, function(y) sum(is.na(y)))
+```
+
+- Doublons :
+```{r}
+duplicated(data$email)
+
+data[duplicated(data$email) | duplicated(data$email, fromLast=TRUE),]
+```
+
+# 2. Traiter les erreurs
+
+## Traiter l'erreur lexicale
+
+On crée un masque où l'on remplace par NA toutes les valeurs non-contenues parmi les valeurs autorisées
+```{r}
+VALID_COUNTRIES = c("France", "Côte d'ivoire", "Madagascar", "Bénin", "Allemagne", "USA")
+
+mask = !data$pays %in% VALID_COUNTRIES
+data[mask, "pays"] = NA
+
+head(data, 10)
+```
+
+## Traiter les valeurs multiples
+
+On ne garde que la première valeur ici :
+```{r}
+data$email = sapply(strsplit(data$email, ","), getElement, 1)
+
+head(data, 10)
+```
+
+## Traiter l'erreur d'irrégularité (unités variables dans une colonne)
+(<?> Pourquoine pas juste convertir la valeur cm en m ???)
+
+1. Suppression de la valeur irrégulière :
+```{r}
+data$taille = substr(data$taille, 1, 4)
+data$taille = as.numeric(data$taille)
+
+data$taille
+```
+2. Remplacement des NA par la moyenne de la variable :
+
+```{r}
+data$taille[is.na(data$taille)] <- mean(data$taille, na.rm = TRUE)
+
+head(data, 10)
+```
+
+## Traiter l'erreur de formatage
+
+```{r}
+data$date_naissance <- as.Date(data$date_naissance, "%d/%m/%Y")
+
+data
+```
+

@@ -1,3 +1,7 @@
+#################################################
+# Partie 1 - Représenter des séries temporelles #
+#################################################
+
 plot(uspop, xlab="t", ylab="USPop")                       # Série uspop : population des Etats-Unis, en millions, de 1790 à 1990 (Pas de temps décennal)
 
 plot(AirPassengers, xlab="t", ylab="AirPassengers")       # Série airpass : nombre mensuel de passagers aériens, en milliers, de janvier 1949 à décembre 1960
