@@ -89,4 +89,12 @@ plot(xaxis, lorenz, type = "s", main = "Courbe de Lorenz des Dépenses",
 
 # -- Indice de Gini --
 
+# Calcul de l'aire sous la courbe de Lorenz
+AUC <- (sum(lorenz) - lorenz[length(lorenz)] / 2 - lorenz[1] / 2) / n
 
+# Calcul de la surface entre la bissectrice et la courbe de Lorenz
+S <- 0.5 - AUC
+
+# Calcul du coefficient de Gini
+gini <- 2 * S
+gini
