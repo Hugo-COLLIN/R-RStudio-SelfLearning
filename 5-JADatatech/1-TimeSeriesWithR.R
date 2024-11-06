@@ -247,3 +247,31 @@ md
 
 # Y(t) = ar1 * Y(t-1) + sar1 * Y(t-2) + sma1 * e(t-1) + sma2 * e(t-2) + e(t)
 
+
+# > Analyse de la perf
+checkresiduals(md)
+
+
+# > 3. Prédictions sur les données de test
+fc <- forecast(md, h = length(test))
+fc
+
+# > 4. Evaluer le modèle
+accuracy(fc, test)
+
+# > Corriger le modèle
+md <- auto.arima(train) #regarder l'aide
+
+# > 5. Faire des prédictions/prévisions
+new_md <- auto.arima(USgas)
+
+previsions <- forecast(new_md, h = 12) # extrapolations sur 12 mois
+
+previsions
+
+test_forecast(
+  actual = USgas,
+  forecast.obj = fc,
+  test = test
+)
+
